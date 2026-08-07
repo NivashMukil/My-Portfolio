@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ExternalLink, CheckCircle, Code, Lightbulb, Target, Copy, Check } from 'lucide-react';
 import type { Project } from '../types';
 import { GithubIcon } from './Icons';
@@ -11,6 +11,17 @@ interface ProjectModalProps {
 export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
   const [copied, setCopied] = useState(false);
 
+  useEffect(() => {
+    if (project) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [project]);
+
   if (!project) return null;
 
   const handleCopySnippet = () => {
@@ -22,7 +33,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200"
+      onClick={onClose}
+    >
       <div
         className="relative w-full max-w-4xl glass-card rounded-3xl border border-slate-700/80 shadow-2xl overflow-hidden my-8 max-h-[90vh] flex flex-col"
         onClick={e => e.stopPropagation()}

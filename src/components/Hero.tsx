@@ -268,11 +268,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
       </div>
       </section>
 
-      {/* Interactive Dual Resume Modal */}
-      <ResumeModal
-        isOpen={isResumeModalOpen}
-        onClose={() => setIsResumeModalOpen(false)}
-      />
+      {/* Interactive Dual Resume Modal (Fallback) */}
+      {isResumeModalOpen && (
+        <ResumeModal
+          isOpen={isResumeModalOpen}
+          onClose={() => setIsResumeModalOpen(false)}
+        />
+      )}
     </>
   );
 };

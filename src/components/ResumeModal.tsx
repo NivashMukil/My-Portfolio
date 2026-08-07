@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Download, Eye, FileText, Code2, BarChart3, CheckCircle2, ExternalLink, Sparkles, Layers } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -70,6 +70,17 @@ interface ResumeModalProps {
 export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
   const [previewPdf, setPreviewPdf] = useState<{ title: string; path: string } | null>(null);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const triggerConfetti = () => {
@@ -92,7 +103,10 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200"
+      onClick={onClose}
+    >
       
       {/* Modal Container */}
       <div 
@@ -130,7 +144,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
           {previewPdf ? (
             /* PDF Preview View */
             <div className="flex flex-col h-full min-h-[500px]">
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800 flex-wrap gap-2">
                 <span className="text-sm font-semibold text-cyan-400 flex items-center gap-2">
                   <Eye className="w-4 h-4" /> Previewing: {previewPdf.title}
                 </span>
@@ -151,12 +165,30 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
                   </button>
                 </div>
               </div>
-              <div className="w-full flex-1 rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 min-h-[450px]">
-                <iframe
-                  src={`${previewPdf.path}#toolbar=0&navpanes=0`}
-                  title={previewPdf.title}
-                  className="w-full h-full min-h-[480px] border-0"
-                />
+              <div className="w-full flex-1 rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 min-h-[450px] flex flex-col">
+                <object
+                  data={`${previewPdf.path}#toolbar=0&navpanes=0`}
+                  type="application/pdf"
+                  className="w-full h-full min-h-[480px] border-0 rounded-2xl"
+                >
+                  <iframe
+                    src={`${previewPdf.path}#toolbar=0&navpanes=0`}
+                    title={previewPdf.title}
+                    className="w-full h-full min-h-[480px] border-0"
+                  >
+                    <div className="flex flex-col items-center justify-center p-8 text-center bg-slate-900 text-slate-300">
+                      <p className="mb-4">Unable to display PDF preview directly.</p>
+                      <a
+                        href={previewPdf.path}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="px-4 py-2 bg-cyan-500 text-white rounded-xl text-xs font-semibold"
+                      >
+                        Open PDF in New Tab
+                      </a>
+                    </div>
+                  </iframe>
+                </object>
               </div>
             </div>
           ) : (

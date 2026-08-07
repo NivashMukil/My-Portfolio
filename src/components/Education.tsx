@@ -7,7 +7,7 @@ export const Education: React.FC = () => {
       degree: 'Bachelor of Computer Science (B.Sc CS)',
       institution: 'Madurai Kamaraj University College',
       location: 'Madurai, Tamil Nadu',
-      period: '2020 - 2023',
+      period: '2021 - 2024',
       description: 'Graduated with strong academic performance in Computer Science, covering Data Structures, Relational Database Management Systems (RDBMS), Operating Systems, Software Engineering, and C/C++ Programming.',
       highlights: ['Data Structures & Algorithms', 'Database Management (SQL)', 'Object Oriented Programming', 'Web Technologies']
     },
@@ -15,7 +15,7 @@ export const Education: React.FC = () => {
       degree: 'Higher Secondary Certificate (HSC)',
       institution: 'Computer Science Stream',
       location: 'Tamil Nadu, India',
-      period: '2019 - 2020',
+      period: '2020 - 2021',
       description: 'Completed higher secondary schooling with core concentration in Mathematics, Computer Science, Physics, and Chemistry.',
       highlights: ['Computer Science Fundamentals', 'C++ Programming Basics', 'Higher Mathematics']
     }

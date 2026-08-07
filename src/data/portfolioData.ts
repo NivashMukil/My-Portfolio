@@ -328,7 +328,7 @@ def menu_view(request):
 export const TIMELINE_ITEMS: TimelineItem[] = [
   {
     id: 't-hsc',
-    year: '2019 - 2020',
+    year: '2020 - 2021',
     title: 'Higher Secondary Education (HSC)',
     institution: 'Computer Science Stream',
     description: 'Completed higher secondary education focusing on Mathematics, Physics, Chemistry, and Computer Science fundamentals.',
@@ -337,7 +337,7 @@ export const TIMELINE_ITEMS: TimelineItem[] = [
   },
   {
     id: 't-bsc',
-    year: '2020 - 2023',
+    year: '2021 - 2024',
     title: 'Bachelor of Computer Science (B.Sc CS)',
     institution: 'Madurai Kamaraj University College',
     description: 'Graduated with strong foundations in Data Structures, Database Management Systems (DBMS), Software Engineering, and Object-Oriented Programming.',
@@ -346,7 +346,7 @@ export const TIMELINE_ITEMS: TimelineItem[] = [
   },
   {
     id: 't-pyspiders',
-    year: '2023 - 2024',
+    year: '2025 - 2026',
     title: 'Data Analysis & Python Full Stack Training',
     institution: 'PySpiders Training Institute',
     description: 'Intensive professional training program covering Python programming, SQL database operations, Power BI analytics, Django web framework, and Machine Learning basics.',
@@ -355,7 +355,7 @@ export const TIMELINE_ITEMS: TimelineItem[] = [
   },
   {
     id: 't-projects',
-    year: '2024 - Present',
+    year: '2025 - Present',
     title: 'Analytics & Software Projects Development',
     institution: 'Independent Hands-on Engineering',
     description: 'Built real-world projects including HR Attrition EDA, Executive Sales Power BI Dashboard, Django Food Delivery Web App, and Titanic Survival analysis.',

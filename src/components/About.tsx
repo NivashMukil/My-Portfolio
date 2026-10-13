@@ -1,194 +1,208 @@
-import React, { useState } from 'react';
-import { UserCheck, GraduationCap, Award, Target, CheckCircle2, ChevronRight } from 'lucide-react';
-import { TIMELINE_ITEMS } from '../data/portfolioData';
+import { useRef, useEffect, useState } from 'react';
+import { GraduationCap, Zap, CheckCircle2, MapPin, Mail } from 'lucide-react';
+import { GithubIcon, LinkedinIcon } from './Icons';
+import { PERSONAL_INFO } from '../data/portfolioData';
 
-export const About: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'all' | 'education' | 'training' | 'goal'>('all');
+const FOCUS_AREAS = [
+  { label: 'Data Analytics & EDA', color: 'text-cyan-400', border: 'border-cyan-500/20', bg: 'bg-cyan-500/8' },
+  { label: 'Business Intelligence', color: 'text-indigo-400', border: 'border-indigo-500/20', bg: 'bg-indigo-500/8' },
+  { label: 'Power BI Dashboards', color: 'text-yellow-400', border: 'border-yellow-500/20', bg: 'bg-yellow-500/8' },
+  { label: 'Python Full Stack', color: 'text-emerald-400', border: 'border-emerald-500/20', bg: 'bg-emerald-500/8' },
+  { label: 'SQL & Databases', color: 'text-purple-400', border: 'border-purple-500/20', bg: 'bg-purple-500/8' },
+  { label: 'Machine Learning Basics', color: 'text-rose-400', border: 'border-rose-500/20', bg: 'bg-rose-500/8' },
+];
 
-  const filteredTimeline = activeTab === 'all'
-    ? TIMELINE_ITEMS
-    : TIMELINE_ITEMS.filter(item => item.type === activeTab || (activeTab === 'education' && item.type === 'education'));
+const HIGHLIGHTS = [
+  {
+    icon: <GraduationCap className="w-5 h-5" />,
+    title: 'B.Sc Computer Science',
+    sub: 'Madurai Kamaraj University College',
+    desc: 'Strong foundation in Data Structures, DBMS, Software Engineering & OOP.',
+    color: 'from-cyan-500/20 to-indigo-500/20',
+    border: 'border-cyan-500/20',
+    glow: 'rgba(56,189,248,0.15)',
+  },
+  {
+    icon: <Zap className="w-5 h-5" />,
+    title: 'PySpiders Training',
+    sub: 'Data Analysis & Python Full Stack',
+    desc: 'Intensive professional program: Python, SQL, Power BI, Django, REST APIs & EDA.',
+    color: 'from-indigo-500/20 to-purple-500/20',
+    border: 'border-indigo-500/20',
+    glow: 'rgba(99,102,241,0.15)',
+  },
+  {
+    icon: <CheckCircle2 className="w-5 h-5" />,
+    title: '5+ Real-World Projects',
+    sub: 'End-to-End Data & Full Stack',
+    desc: 'HR Attrition EDA, Power BI Dashboard, Django Food App, Titanic Analysis & more.',
+    color: 'from-emerald-500/20 to-cyan-500/20',
+    border: 'border-emerald-500/20',
+    glow: 'rgba(52,211,153,0.15)',
+  },
+];
+
+export const About = () => {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.1 }
+    );
+    if (panelRef.current) observer.observe(panelRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = panelRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -10;
+    setTilt({ x, y });
+  };
+
+  const handleMouseLeave = () => setTilt({ x: 0, y: 0 });
 
   return (
-    <section id="about" className="py-24 relative z-10">
+    <section id="about" className="py-28 relative z-10">
+      {/* Background accent */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-0 w-[600px] h-[400px] bg-cyan-600/4 blur-[100px] -translate-y-1/2" />
+        <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-purple-600/4 blur-[100px] -translate-y-1/2" />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-widest mb-3">
-            <UserCheck className="w-3.5 h-3.5" />
-            Discover My Journey
+
+        {/* Section header */}
+        <div className="text-center mb-20"
+          style={{ animation: visible ? 'slideInUp 0.7s ease-out both' : 'none' }}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-widest mb-4">
+            <GraduationCap className="w-3.5 h-3.5" />
+            Who I Am
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            About <span className="text-gradient">Nivash Mukil</span>
+          <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
+            About <span className="text-gradient-cyan">Nivash Mukil</span>
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg mt-3">
+          <p className="text-slate-400 text-base sm:text-lg mt-4 max-w-2xl mx-auto">
             Bridging analytical data insights with modern Python full stack engineering.
           </p>
         </div>
 
-        {/* Bio Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch mb-20">
-          
-          {/* Left Feature Card */}
-          <div className="lg:col-span-5 glass-card p-8 rounded-3xl border border-slate-800 flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
-            
-            <div>
-              <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-6">
-                <GraduationCap className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">
-                Computer Science Graduate & Data Enthusiast
-              </h3>
-              <p className="text-slate-300 leading-relaxed text-sm sm:text-base mb-6">
-                I am a dedicated <strong className="text-cyan-300">B.Sc Computer Science graduate</strong> from Madurai Kamaraj University College. My passion lies at the intersection of data analytical storytelling and software engineering.
-              </p>
-              <p className="text-slate-300 leading-relaxed text-sm sm:text-base mb-6">
-                Equipped with intensive hands-on training from <strong className="text-blue-400">PySpiders</strong>, I possess strong practical skills in <strong className="text-emerald-400">Python, SQL, Power BI, Pandas, and Django</strong>. I thrive on translating unstructured raw datasets into strategic business decisions and interactive dashboards.
-              </p>
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
 
-            {/* Quick Interests Grid */}
-            <div className="pt-6 border-t border-slate-800">
-              <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                Core Focus Areas:
-              </h4>
-              <div className="grid grid-cols-2 gap-2 text-xs font-medium text-slate-200">
-                <div className="flex items-center gap-1.5 p-2 rounded-lg bg-slate-800/60 border border-slate-700/50">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Data Analytics</span>
+          {/* ── LEFT: Main floating glass panel ── */}
+          <div
+            ref={panelRef}
+            className="lg:col-span-5"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ perspective: '1000px' }}
+          >
+            <div
+              className="glass-card-strong rounded-3xl p-8 border border-cyan-500/15 relative overflow-hidden holographic"
+              style={{
+                transform: `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
+                transition: 'transform 0.15s ease',
+                boxShadow: `0 20px 80px rgba(0,0,0,0.7), 0 0 40px ${tilt.x !== 0 ? 'rgba(56,189,248,0.1)' : 'transparent'}`,
+              }}
+            >
+              {/* Corner glows */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-cyan-500/10 to-transparent rounded-full blur-2xl" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-purple-500/10 to-transparent rounded-full blur-2xl" />
+
+              {/* Header */}
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 border border-cyan-500/25 flex items-center justify-center flex-shrink-0"
+                  style={{ boxShadow: '0 0 20px rgba(56,189,248,0.15)' }}>
+                  <GraduationCap className="w-7 h-7 text-cyan-400" />
                 </div>
-                <div className="flex items-center gap-1.5 p-2 rounded-lg bg-slate-800/60 border border-slate-700/50">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
-                  <span>Business Intelligence</span>
+                <div>
+                  <h3 className="text-xl font-bold text-white leading-tight">
+                    CS Graduate & Data Enthusiast
+                  </h3>
+                  <p className="text-sm text-cyan-400/80 mt-0.5">Python · SQL · Power BI · Django</p>
                 </div>
-                <div className="flex items-center gap-1.5 p-2 rounded-lg bg-slate-800/60 border border-slate-700/50">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Power BI Dashboards</span>
+              </div>
+
+              <p className="text-slate-300 leading-relaxed text-sm mb-4">
+                I am a dedicated <span className="text-cyan-300 font-semibold">B.Sc Computer Science graduate</span> from Madurai Kamaraj University College. My passion lies at the intersection of <span className="text-indigo-300 font-semibold">data analytical storytelling</span> and software engineering.
+              </p>
+              <p className="text-slate-300 leading-relaxed text-sm mb-6">
+                Equipped with intensive hands-on training from <span className="text-blue-400 font-semibold">PySpiders Training Institute</span>, I possess strong practical skills in <span className="text-emerald-400 font-semibold">Python, SQL, Power BI, Pandas, and Django</span> — transforming unstructured datasets into strategic business intelligence and interactive dashboards.
+              </p>
+
+              {/* Info pills */}
+              <div className="space-y-2.5 mb-6">
+                <div className="flex items-center gap-2 text-sm text-slate-400">
+                  <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+                  {PERSONAL_INFO.location}
                 </div>
-                <div className="flex items-center gap-1.5 p-2 rounded-lg bg-slate-800/60 border border-slate-700/50">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Python Full Stack</span>
+                <div className="flex items-center gap-2 text-sm text-slate-400">
+                  <Mail className="w-3.5 h-3.5 text-indigo-400" />
+                  {PERSONAL_INFO.email}
                 </div>
+              </div>
+
+              {/* Social links */}
+              <div className="flex gap-3 pt-4 border-t border-slate-800/60">
+                <a href={PERSONAL_INFO.github} target="_blank" rel="noreferrer"
+                  className="btn-ghost flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-300 flex-1 justify-center">
+                  <GithubIcon className="w-4 h-4" /> GitHub
+                </a>
+                <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noreferrer"
+                  className="btn-ghost flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-300 flex-1 justify-center">
+                  <LinkedinIcon className="w-4 h-4" /> LinkedIn
+                </a>
               </div>
             </div>
           </div>
 
-          {/* Right Highlights Cards */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="glass-card p-6 rounded-3xl border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-4">
-                  <Award className="w-5 h-5" />
-                </div>
-                <h4 className="text-lg font-bold text-white mb-2">Technical Proficiency</h4>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                  Proficient in writing complex SQL relational queries, designing Star Schema data models in Power BI, and executing EDA using Pandas & Seaborn.
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between text-xs text-cyan-400 font-semibold">
-                <span>Data Pipelines & ETL</span>
-                <ChevronRight className="w-4 h-4" />
-              </div>
-            </div>
-
-            <div className="glass-card p-6 rounded-3xl border border-slate-800 hover:border-emerald-500/40 transition-all flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4">
-                  <Target className="w-5 h-5" />
-                </div>
-                <h4 className="text-lg font-bold text-white mb-2">Problem Solving Mindset</h4>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                  Passionate about evaluating business requirements, discovering hidden revenue drivers or attrition risks, and delivering end-to-end full stack web platforms.
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between text-xs text-emerald-400 font-semibold">
-                <span>Value Driven Solutions</span>
-                <ChevronRight className="w-4 h-4" />
-              </div>
-            </div>
-
-            <div className="glass-card p-6 rounded-3xl border border-slate-800 hover:border-purple-500/40 transition-all sm:col-span-2">
-              <h4 className="text-lg font-bold text-white mb-3">Academic & Professional Foundation</h4>
-              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
-                My education at <strong className="text-white">Madurai Kamaraj University College</strong> provided deep understanding of core computer science fundamentals, object-oriented concepts, and algorithmic thinking. My specialization at <strong className="text-white">PySpiders</strong> shaped my hands-on mastery in modern Python, SQL databases, and BI dashboard engineering.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs border border-slate-700">Python 3.x</span>
-                <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs border border-slate-700">Oracle & MySQL</span>
-                <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs border border-slate-700">Power BI DAX</span>
-                <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs border border-slate-700">Django MVT</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Timeline Section */}
-        <div className="mt-16">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10">
-            <div>
-              <h3 className="text-2xl font-bold text-white">Career & Education Timeline</h3>
-              <p className="text-slate-400 text-xs sm:text-sm">Milestones along my journey from academic degree to professional analytics training</p>
-            </div>
-            {/* Filter Tabs */}
-            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs">
-              {(['all', 'education', 'training', 'goal'] as const).map(tab => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-3 py-1.5 rounded-lg font-semibold capitalize transition-all ${
-                    activeTab === tab
-                      ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Vertical Timeline */}
-          <div className="relative border-l-2 border-slate-800/80 ml-4 sm:ml-8 pl-6 sm:pl-10 space-y-10">
-            {filteredTimeline.map(item => (
-              <div key={item.id} className="relative group">
-                {/* Glowing Bullet Node */}
-                <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-5 h-5 rounded-full bg-slate-900 border-2 border-cyan-400 group-hover:bg-cyan-400 group-hover:scale-125 transition-all shadow-[0_0_12px_#06B6D4]" />
-                
-                <div className="glass-card p-6 rounded-2xl border border-slate-800 group-hover:border-cyan-500/40 transition-all">
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                      {item.year}
-                    </span>
-                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                      {item.institution}
-                    </span>
+          {/* ── RIGHT: Highlight cards + Focus areas ── */}
+          <div className="lg:col-span-7 space-y-5">
+            {/* Highlight cards */}
+            {HIGHLIGHTS.map((h, i) => (
+              <div key={i}
+                className="glass-card rounded-2xl p-5 border hover:scale-[1.01] transition-all duration-300 group relative overflow-hidden"
+                style={{
+                  borderColor: `var(--border-glass)`,
+                  animation: visible ? `slideInRight 0.6s ${i * 0.15}s ease-out both` : 'none',
+                }}>
+                <div className={`absolute inset-0 bg-gradient-to-r ${h.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`} />
+                <div className="relative flex items-start gap-4">
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${h.color} border ${h.border} flex items-center justify-center flex-shrink-0 text-white`}
+                    style={{ boxShadow: `0 0 15px ${h.glow}` }}>
+                    {h.icon}
                   </div>
-
-                  <h4 className="text-xl font-bold text-white mb-2">
-                    {item.title}
-                  </h4>
-                  <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
-                    {item.description}
-                  </p>
-
-                  {item.skills && (
-                    <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-800/60">
-                      {item.skills.map(sk => (
-                        <span key={sk} className="px-2.5 py-1 rounded-md bg-slate-800/80 text-slate-300 text-[11px] font-medium border border-slate-700/50">
-                          {sk}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  <div>
+                    <h4 className="font-bold text-white text-sm mb-0.5">{h.title}</h4>
+                    <p className="text-xs text-slate-400 mb-1.5">{h.sub}</p>
+                    <p className="text-xs text-slate-300 leading-relaxed">{h.desc}</p>
+                  </div>
                 </div>
               </div>
             ))}
+
+            {/* Focus areas grid */}
+            <div className="glass-card rounded-2xl p-6 border border-slate-800"
+              style={{ animation: visible ? 'slideInUp 0.7s 0.5s ease-out both' : 'none' }}>
+              <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">
+                Core Focus Areas
+              </h4>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {FOCUS_AREAS.map((f, i) => (
+                  <div key={i}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl ${f.bg} border ${f.border} hover:scale-105 transition-transform duration-200`}>
+                    <div className={`w-1.5 h-1.5 rounded-full ${f.color.replace('text-', 'bg-')}`} />
+                    <span className={`text-xs font-medium ${f.color}`}>{f.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </section>
   );

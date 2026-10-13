@@ -1,7 +1,7 @@
 export interface Project {
   id: string;
   title: string;
-  category: 'Data Analytics' | 'Python Full Stack' | 'Power BI';
+  category: 'Data Analytics' | 'Python Full Stack' | 'Power BI' | string;
   subtitle: string;
   description: string;
   longDescription: string;
@@ -18,13 +18,40 @@ export interface Project {
     code: string;
     title: string;
   };
+  stars?: number;
+  forks?: number;
+  updatedAt?: string;
+  topics?: string[];
+  isFeatured?: boolean;
+  repoName?: string;
+  isGitHubRepo?: boolean;
+  language?: string | null;
+}
+
+export interface GitHubRepo {
+  id: number;
+  name: string;
+  full_name: string;
+  description: string | null;
+  html_url: string;
+  homepage: string | null;
+  language: string | null;
+  stargazers_count: number;
+  forks_count: number;
+  updated_at: string;
+  pushed_at: string;
+  created_at: string;
+  topics?: string[];
+  archived: boolean;
+  fork: boolean;
+  visibility: string;
 }
 
 export interface Skill {
   name: string;
   level: number; // 0 - 100
   iconName: string;
-  category: 'Programming' | 'Libraries' | 'Frameworks' | 'Analytics' | 'Databases' | 'Tools';
+  category: 'Programming' | 'Data Analytics' | 'Database' | 'Web Development' | 'Tools';
   description: string;
 }
 

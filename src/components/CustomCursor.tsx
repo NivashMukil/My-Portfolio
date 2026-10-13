@@ -1,67 +1,67 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-export const CustomCursor: React.FC = () => {
-  const [position, setPosition] = useState({ x: -100, y: -100 });
-  const [isHovered, setIsHovered] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+export const CustomCursor = () => {
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
+    let x = 0, y = 0;
+    let ringX = 0, ringY = 0;
+    let frame: number;
 
-      const target = e.target as HTMLElement;
-      if (
-        target &&
-        (target.tagName === 'BUTTON' ||
-          target.tagName === 'A' ||
-          target.closest('button') ||
-          target.closest('a') ||
-          target.getAttribute('role') === 'button' ||
-          target.classList.contains('interactive'))
-      ) {
-        setIsHovered(true);
-      } else {
-        setIsHovered(false);
+    const onMove = (e: MouseEvent) => {
+      x = e.clientX;
+      y = e.clientY;
+    };
+
+    const loop = () => {
+      ringX += (x - ringX) * 0.12;
+      ringY += (y - ringY) * 0.12;
+
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate(${x - 4}px, ${y - 4}px)`;
+      }
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate(${ringX - 16}px, ${ringY - 16}px)`;
+      }
+      frame = requestAnimationFrame(loop);
+    };
+
+    const onEnterLink = () => {
+      if (ringRef.current) {
+        ringRef.current.style.width = '50px';
+        ringRef.current.style.height = '50px';
+        ringRef.current.style.borderColor = 'rgba(168, 85, 247, 0.8)';
+        ringRef.current.style.background = 'rgba(168, 85, 247, 0.08)';
+      }
+    };
+    const onLeaveLink = () => {
+      if (ringRef.current) {
+        ringRef.current.style.width = '32px';
+        ringRef.current.style.height = '32px';
+        ringRef.current.style.borderColor = 'rgba(56, 189, 248, 0.6)';
+        ringRef.current.style.background = 'transparent';
       }
     };
 
-    const onMouseLeave = () => setIsVisible(false);
-    const onMouseEnter = () => setIsVisible(true);
+    window.addEventListener('mousemove', onMove);
+    frame = requestAnimationFrame(loop);
 
-    window.addEventListener('mousemove', onMouseMove);
-    document.body.addEventListener('mouseleave', onMouseLeave);
-    document.body.addEventListener('mouseenter', onMouseEnter);
+    document.querySelectorAll('a, button, [role="button"]').forEach(el => {
+      el.addEventListener('mouseenter', onEnterLink);
+      el.addEventListener('mouseleave', onLeaveLink);
+    });
 
     return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      document.body.removeEventListener('mouseleave', onMouseLeave);
-      document.body.removeEventListener('mouseenter', onMouseEnter);
+      cancelAnimationFrame(frame);
+      window.removeEventListener('mousemove', onMove);
     };
-  }, [isVisible]);
-
-  if (!isVisible) return null;
+  }, []);
 
   return (
     <>
-      {/* Small dot follower */}
-      <div
-        className="fixed top-0 left-0 w-3 h-3 bg-cyan-400 rounded-full pointer-events-none z-50 transition-transform duration-75 ease-out shadow-[0_0_10px_#06B6D4]"
-        style={{
-          transform: `translate3d(${position.x - 6}px, ${position.y - 6}px, 0) scale(${
-            isHovered ? 2 : 1
-          })`
-        }}
-      />
-      {/* Outer subtle glow ring */}
-      <div
-        className="fixed top-0 left-0 w-10 h-10 border border-blue-500/40 rounded-full pointer-events-none z-40 transition-transform duration-200 ease-out"
-        style={{
-          transform: `translate3d(${position.x - 20}px, ${position.y - 20}px, 0) scale(${
-            isHovered ? 1.6 : 1
-          })`
-        }}
-      />
+      <div ref={dotRef} className="cursor-dot" />
+      <div ref={ringRef} className="cursor-ring" />
     </>
   );
 };

@@ -1,119 +1,230 @@
-import React, { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Cpu } from 'lucide-react';
 import { SKILLS } from '../data/portfolioData';
 import type { Skill } from '../types';
 
-export const Skills: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+const CATEGORY_CONFIG: Record<string, { label: string; color: string; glow: string; border: string; bg: string; accent: string }> = {
+  Programming: {
+    label: 'Programming',
+    color: 'text-cyan-400',
+    glow: 'rgba(56,189,248,0.3)',
+    border: 'border-cyan-500/25',
+    bg: 'bg-cyan-500/8',
+    accent: '#38BDF8',
+  },
+  'Data Analytics': {
+    label: 'Data Analytics',
+    color: 'text-amber-400',
+    glow: 'rgba(245,158,11,0.3)',
+    border: 'border-amber-500/25',
+    bg: 'bg-amber-500/8',
+    accent: '#F59E0B',
+  },
+  Database: {
+    label: 'Database',
+    color: 'text-emerald-400',
+    glow: 'rgba(52,211,153,0.3)',
+    border: 'border-emerald-500/25',
+    bg: 'bg-emerald-500/8',
+    accent: '#34D399',
+  },
+  'Web Development': {
+    label: 'Web Development',
+    color: 'text-indigo-400',
+    glow: 'rgba(99,102,241,0.3)',
+    border: 'border-indigo-500/25',
+    bg: 'bg-indigo-500/8',
+    accent: '#818CF8',
+  },
+  Tools: {
+    label: 'Tools',
+    color: 'text-purple-400',
+    glow: 'rgba(168,85,247,0.3)',
+    border: 'border-purple-500/25',
+    bg: 'bg-purple-500/8',
+    accent: '#A855F7',
+  },
+};
 
-  const categories = ['All', 'Programming', 'Libraries', 'Frameworks', 'Analytics', 'Databases', 'Tools'];
+const CATEGORIES = ['All', 'Programming', 'Data Analytics', 'Database', 'Web Development', 'Tools'];
 
-  const filteredSkills = selectedCategory === 'All'
-    ? SKILLS
-    : SKILLS.filter(s => s.category === selectedCategory);
+interface SkillCardProps {
+  skill: Skill;
+  index: number;
+  visible: boolean;
+}
+
+const SkillCard = ({ skill, index, visible }: SkillCardProps) => {
+  const cfg = CATEGORY_CONFIG[skill.category] || CATEGORY_CONFIG.Tools;
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 16;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -16;
+    setTilt({ x, y });
+  };
 
   return (
-    <section id="skills" className="py-24 relative z-10">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-widest mb-3">
-            <Cpu className="w-3.5 h-3.5" />
-            Technical Arsenal
+    <div
+      ref={cardRef}
+      className="group relative"
+      style={{
+        perspective: '800px',
+        animation: visible ? `slideInUp 0.5s ${index * 0.05}s ease-out both` : 'none',
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => { setTilt({ x: 0, y: 0 }); setHovered(false); }}
+      onMouseEnter={() => setHovered(true)}
+    >
+      <div
+        className={`glass-card rounded-2xl p-5 border ${cfg.border} relative overflow-hidden cursor-default transition-all duration-300`}
+        style={{
+          transform: `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) translateZ(${hovered ? '8px' : '0'})`,
+          transition: 'transform 0.15s ease, box-shadow 0.3s ease',
+          boxShadow: hovered
+            ? `0 20px 60px rgba(0,0,0,0.6), 0 0 30px ${cfg.glow}`
+            : '0 4px 20px rgba(0,0,0,0.4)',
+        }}
+      >
+        {/* Background gradient on hover */}
+        <div
+          className={`absolute inset-0 ${cfg.bg} opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-2xl`}
+        />
+
+        {/* Top row */}
+        <div className="relative flex items-start justify-between mb-4">
+          <div className={`w-10 h-10 rounded-xl ${cfg.bg} border ${cfg.border} flex items-center justify-center`}
+            style={{ boxShadow: hovered ? `0 0 16px ${cfg.glow}` : 'none', transition: 'box-shadow 0.3s' }}>
+            <Cpu className={`w-5 h-5 ${cfg.color}`} />
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Skills & <span className="text-gradient">Proficiencies</span>
+          <span className={`text-xs font-bold ${cfg.color} font-mono-code`}>{skill.level}%</span>
+        </div>
+
+        {/* Skill name */}
+        <h3 className="relative font-bold text-white text-sm mb-1 group-hover:text-white transition-colors">
+          {skill.name}
+        </h3>
+
+        {/* Category badge */}
+        <span className={`relative text-[10px] font-semibold ${cfg.color} uppercase tracking-wider`}>
+          {skill.category}
+        </span>
+
+        {/* Description on hover */}
+        <div className={`relative mt-3 overflow-hidden transition-all duration-300 ${hovered ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
+          <p className="text-[11px] text-slate-400 leading-relaxed">{skill.description}</p>
+        </div>
+
+        {/* Progress bar */}
+        <div className="relative mt-3 skill-progress">
+          <div
+            className="skill-progress-fill"
+            style={{
+              width: visible ? `${skill.level}%` : '0%',
+              background: `linear-gradient(90deg, ${cfg.accent}, ${cfg.accent}88)`,
+              boxShadow: `0 0 8px ${cfg.glow}`,
+              transition: `width 1.5s ${index * 0.05}s ease`,
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const Skills = () => {
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [visible, setVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const filtered = activeCategory === 'All'
+    ? SKILLS
+    : SKILLS.filter(s => s.category === activeCategory);
+
+  return (
+    <section id="skills" ref={sectionRef} className="py-28 relative z-10">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute left-1/4 top-1/3 w-[500px] h-[400px] bg-indigo-600/5 blur-[120px] rounded-full" />
+        <div className="absolute right-1/4 bottom-1/3 w-[400px] h-[300px] bg-cyan-600/5 blur-[100px] rounded-full" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+
+        {/* Header */}
+        <div className="text-center mb-14" style={{ animation: visible ? 'slideInUp 0.7s ease-out both' : 'none' }}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-widest mb-4">
+            <Cpu className="w-3.5 h-3.5" />
+            Technical Expertise
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
+            My <span className="text-gradient-cyan">Skills</span>
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg mt-3">
-            Interactive breakdown of programming languages, analytics tools, libraries, and frameworks.
+          <p className="text-slate-400 mt-4 text-base sm:text-lg max-w-xl mx-auto">
+            A comprehensive toolkit built through intensive training and real-world project experience.
           </p>
         </div>
 
-        {/* Category Filter Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-14">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 ${
-                selectedCategory === cat
-                  ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-cyan-500/25 scale-105'
-                  : 'glass-card text-slate-300 hover:text-white hover:border-slate-700'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Circular Progress Bars & Skill Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredSkills.map((skill: Skill) => {
-            // SVG Circular calculations
-            const radius = 36;
-            const circumference = 2 * Math.PI * radius;
-            const strokeDashoffset = circumference - (skill.level / 100) * circumference;
-
+        {/* Category filter */}
+        <div className="flex flex-wrap justify-center gap-2 mb-12"
+          style={{ animation: visible ? 'slideInUp 0.7s 0.1s ease-out both' : 'none' }}>
+          {CATEGORIES.map(cat => {
+            const isActive = activeCategory === cat;
+            const cfg = cat !== 'All' ? CATEGORY_CONFIG[cat] : null;
             return (
-              <div
-                key={skill.name}
-                className="glass-card p-6 rounded-3xl border border-slate-800 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 group relative overflow-hidden flex flex-col items-center text-center"
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                  isActive
+                    ? `glass-card border ${cfg?.border || 'border-cyan-500/30'} ${cfg?.color || 'text-cyan-400'} shadow-lg`
+                    : 'text-slate-400 hover:text-slate-200 border border-transparent hover:border-slate-700'
+                }`}
+                style={isActive && cfg ? { boxShadow: `0 0 20px ${cfg.glow}` } : {}}
               >
-                {/* Top Subtle Gradient */}
-                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                {/* SVG Radial Circular Meter */}
-                <div className="relative w-24 h-24 mb-4 flex items-center justify-center">
-                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 90 90">
-                    {/* Background Track */}
-                    <circle
-                      cx="45"
-                      cy="45"
-                      r={radius}
-                      className="stroke-slate-800"
-                      strokeWidth="7"
-                      fill="transparent"
-                    />
-                    {/* Animated Progress Track */}
-                    <circle
-                      cx="45"
-                      cy="45"
-                      r={radius}
-                      className="stroke-cyan-400 transition-all duration-1000 ease-out"
-                      strokeWidth="7"
-                      strokeDasharray={circumference}
-                      strokeDashoffset={strokeDashoffset}
-                      strokeLinecap="round"
-                      fill="transparent"
-                    />
-                  </svg>
-                  {/* Percentage label in center */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-lg font-extrabold text-white">
-                      {skill.level}%
-                    </span>
-                    <span className="text-[10px] text-slate-400 font-medium uppercase tracking-tight">
-                      Mastery
-                    </span>
-                  </div>
-                </div>
-
-                <h3 className="text-lg font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">
-                  {skill.name}
-                </h3>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-slate-800 text-slate-400 border border-slate-700/60 mb-3">
-                  {skill.category}
-                </span>
-
-                <p className="text-slate-300 text-xs leading-relaxed line-clamp-2">
-                  {skill.description}
-                </p>
-              </div>
+                {cat}
+              </button>
             );
           })}
         </div>
 
+        {/* Skills grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {filtered.map((skill, i) => (
+            <SkillCard key={skill.name} skill={skill} index={i} visible={visible} />
+          ))}
+        </div>
+
+        {/* Summary row */}
+        <div className="mt-16 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4"
+          style={{ animation: visible ? 'slideInUp 0.7s 0.4s ease-out both' : 'none' }}>
+          {Object.entries(CATEGORY_CONFIG).map(([key, cfg]) => {
+            const count = SKILLS.filter(s => s.category === key).length;
+            return (
+              <button
+                key={key}
+                onClick={() => setActiveCategory(key)}
+                className={`glass-card rounded-xl p-4 border ${cfg.border} text-center hover:scale-105 transition-all duration-300 group`}
+                style={{ boxShadow: 'none' }}
+              >
+                <div className={`text-2xl font-black ${cfg.color} mb-1`}>{count}</div>
+                <div className="text-[11px] text-slate-400 font-medium">{cfg.label}</div>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

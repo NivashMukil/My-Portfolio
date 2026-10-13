@@ -1,67 +1,46 @@
-import React from 'react';
-import { ArrowUp, Mail, Sparkles } from 'lucide-react';
-import { PERSONAL_INFO } from '../data/portfolioData';
+import { Mail, Heart } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
+import { PERSONAL_INFO } from '../data/portfolioData';
 
-export const Footer: React.FC = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
+export const Footer = () => {
+  const year = new Date().getFullYear();
   return (
-    <footer className="py-12 relative z-10 border-t border-slate-800/80 bg-slate-950/60">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+    <footer className="relative z-10 py-10 border-t border-slate-800/60">
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent pointer-events-none" />
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 relative">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-          
-          {/* Brand & Copyright */}
-          <div className="flex flex-col items-center sm:items-start">
-            <a href="#home" className="text-lg font-bold text-white flex items-center gap-1.5 mb-1">
-              <span>Nivash Mukil</span>
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            </a>
-            <p className="text-xs text-slate-400">
-              © {new Date().getFullYear()} Nivash Mukil. All rights reserved. Aspiring Data Analyst & Python Developer.
-            </p>
+
+          {/* Logo & name */}
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center">
+              <span className="text-xs font-bold text-white font-display">NM</span>
+            </div>
+            <div>
+              <span className="text-sm font-bold text-white">Nivash Mukil</span>
+              <p className="text-[11px] text-slate-500">Data Analyst · Python Developer</p>
+            </div>
           </div>
 
-          {/* Social Icons */}
-          <div className="flex items-center gap-3">
-            <a
-              href={PERSONAL_INFO.github}
-              target="_blank"
-              rel="noreferrer"
-              className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition-all hover:scale-110"
-              aria-label="GitHub"
-            >
+          {/* Credit */}
+          <p className="text-xs text-slate-500 flex items-center gap-1.5">
+            Built with <Heart className="w-3 h-3 text-rose-500 fill-rose-500" /> by Nivash · © {year}
+          </p>
+
+          {/* Socials */}
+          <div className="flex items-center gap-2">
+            <a href={PERSONAL_INFO.github} target="_blank" rel="noreferrer"
+              className="p-2.5 rounded-xl glass-card border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/30 transition-all">
               <GithubIcon className="w-4 h-4" />
             </a>
-            <a
-              href={PERSONAL_INFO.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-400 text-slate-300 hover:text-blue-400 transition-all hover:scale-110"
-              aria-label="LinkedIn"
-            >
+            <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noreferrer"
+              className="p-2.5 rounded-xl glass-card border border-slate-800 text-slate-400 hover:text-blue-400 hover:border-blue-500/30 transition-all">
               <LinkedinIcon className="w-4 h-4" />
             </a>
-            <a
-              href={`mailto:${PERSONAL_INFO.email}`}
-              className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-400 text-slate-300 hover:text-emerald-400 transition-all hover:scale-110"
-              aria-label="Email"
-            >
+            <a href={`mailto:${PERSONAL_INFO.email}`}
+              className="p-2.5 rounded-xl glass-card border border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all">
               <Mail className="w-4 h-4" />
             </a>
-
-            {/* Back To Top Button */}
-            <button
-              onClick={scrollToTop}
-              className="p-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-md hover:scale-110 transition-transform ml-2"
-              title="Back to Top"
-            >
-              <ArrowUp className="w-4 h-4" />
-            </button>
           </div>
-
         </div>
       </div>
     </footer>

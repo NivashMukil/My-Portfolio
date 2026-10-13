@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useTheme } from './hooks/useTheme';
-import { ParticleBackground } from './components/ParticleBackground';
+import { ThreeBackground } from './components/ThreeBackground';
 import { CustomCursor } from './components/CustomCursor';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -17,42 +16,64 @@ import { Footer } from './components/Footer';
 import { ResumeModal } from './components/ResumeModal';
 
 export function App() {
-  const { theme, toggleTheme } = useTheme();
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
   return (
-    <div className={`min-h-screen relative font-sans selection:bg-cyan-500 selection:text-white ${theme}`}>
-      {/* Dynamic Starry Canvas Mesh */}
-      <ParticleBackground isDark={theme === 'dark'} />
+    <div className="min-h-screen relative font-sans" style={{ background: '#07090E', color: '#F0F6FC' }}>
 
-      {/* Glowing Desktop Cursor Follower */}
+      {/* 3D Interactive WebGL Background */}
+      <ThreeBackground />
+
+      {/* Glowing Neon Cursor */}
       <CustomCursor />
 
-      {/* Sticky Glass Navbar */}
-      <Navbar 
-        theme={theme} 
-        toggleTheme={toggleTheme} 
-        onOpenResumeModal={() => setIsResumeModalOpen(true)} 
-      />
+      {/* Sticky Glassmorphism Navbar */}
+      <Navbar onOpenResumeModal={() => setIsResumeModalOpen(true)} />
 
-      {/* Main Page Layout */}
+      {/* Main Content */}
       <main className="relative z-10">
         <Hero onOpenResumeModal={() => setIsResumeModalOpen(true)} />
+
+        {/* Section separator */}
+        <div className="section-divider mx-auto max-w-7xl" />
+
         <About />
+
+        <div className="section-divider mx-auto max-w-7xl" />
+
         <Skills />
+
+        <div className="section-divider mx-auto max-w-7xl" />
+
         <Projects />
+
+        <div className="section-divider mx-auto max-w-7xl" />
+
         <TrainingExperience />
+
+        <div className="section-divider mx-auto max-w-7xl" />
+
         <Certifications />
+
+        <div className="section-divider mx-auto max-w-7xl" />
+
         <Education />
+
+        {/* Tools Carousel */}
         <ToolsCarousel />
+
+        <div className="section-divider mx-auto max-w-7xl" />
+
         <Achievements />
+
+        <div className="section-divider mx-auto max-w-7xl" />
+
         <Contact />
       </main>
 
-      {/* Footer */}
       <Footer />
 
-      {/* Interactive Dual Resume Selection & Preview Modal */}
+      {/* Dual Resume Download Modal */}
       <ResumeModal
         isOpen={isResumeModalOpen}
         onClose={() => setIsResumeModalOpen(false)}

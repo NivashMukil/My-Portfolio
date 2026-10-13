@@ -59,36 +59,37 @@ export const ACHIEVEMENTS: Achievement[] = [
 
 export const SKILLS: Skill[] = [
   // Programming
-  { name: 'Python', level: 90, iconName: 'FileCode', category: 'Programming', description: 'Data structures, OOP, Pandas, NumPy, Django, FastAPI' },
-  { name: 'SQL', level: 88, iconName: 'Database', category: 'Programming', description: 'Complex Queries, Joins, Aggregations, Subqueries, Stored Procedures' },
+  { name: 'Python', level: 92, iconName: 'FileCode', category: 'Programming', description: 'Data structures, OOP, Pandas, NumPy, Django, FastAPI' },
+  { name: 'Advanced Python', level: 88, iconName: 'Cpu', category: 'Programming', description: 'Decorators, Generators, Multithreading, Asyncio, Metaclasses, Design Patterns' },
+  { name: 'SQL', level: 90, iconName: 'Database', category: 'Programming', description: 'Complex Queries, Joins, Aggregations, Subqueries, Stored Procedures, Window Functions' },
   { name: 'JavaScript', level: 78, iconName: 'Code', category: 'Programming', description: 'ES6+, DOM Manipulation, Async/Await, Interactive UIs' },
-  { name: 'HTML5', level: 92, iconName: 'Layout', category: 'Programming', description: 'Semantic markup, accessibility, SEO structure' },
-  { name: 'CSS3', level: 85, iconName: 'Palette', category: 'Programming', description: 'Flexbox, Grid, Glassmorphism, Animations, Responsive layouts' },
 
-  // Libraries
-  { name: 'Pandas', level: 90, iconName: 'Table', category: 'Libraries', description: 'Data manipulation, wrangling, transformation, aggregation' },
-  { name: 'NumPy', level: 85, iconName: 'Calculator', category: 'Libraries', description: 'Numerical computations, multi-dimensional array processing' },
-  { name: 'Matplotlib', level: 84, iconName: 'LineChart', category: 'Libraries', description: 'Custom statistical charts, plotting, trend visualizations' },
-  { name: 'Seaborn', level: 86, iconName: 'PieChart', category: 'Libraries', description: 'Statistical data visualization, heatmaps, correlation matrix' },
-  { name: 'OpenCV', level: 72, iconName: 'Eye', category: 'Libraries', description: 'Computer vision basics, image processing & color analysis' },
+  // Data Analytics
+  { name: 'Power BI', level: 92, iconName: 'BarChart', category: 'Data Analytics', description: 'Interactive Dashboards, Power Query, DAX measures, ETL pipeline' },
+  { name: 'Pandas', level: 90, iconName: 'Table', category: 'Data Analytics', description: 'Data manipulation, wrangling, transformation, aggregation' },
+  { name: 'NumPy', level: 85, iconName: 'Calculator', category: 'Data Analytics', description: 'Numerical computations, multi-dimensional array processing' },
+  { name: 'Matplotlib', level: 84, iconName: 'LineChart', category: 'Data Analytics', description: 'Custom statistical charts, plotting, trend visualizations' },
+  { name: 'Seaborn', level: 86, iconName: 'PieChart', category: 'Data Analytics', description: 'Statistical data visualization, heatmaps, correlation matrix' },
+  { name: 'Excel', level: 88, iconName: 'Sheet', category: 'Data Analytics', description: 'Pivot tables, VLOOKUP/XLOOKUP, Advanced formulas, Data cleaning' },
+  { name: 'DAX', level: 84, iconName: 'Cpu', category: 'Data Analytics', description: 'Data Analysis Expressions, calculated columns, measures, time intelligence' },
+  { name: 'ETL', level: 85, iconName: 'Workflow', category: 'Data Analytics', description: 'Extract, Transform, Load workflows in Power Query & Python' },
+  { name: 'EDA', level: 90, iconName: 'Search', category: 'Data Analytics', description: 'Exploratory Data Analysis, outlier detection, hypothesis testing' },
+  { name: 'OpenCV', level: 72, iconName: 'Eye', category: 'Data Analytics', description: 'Computer vision basics, image processing & color analysis' },
 
-  // Frameworks
-  { name: 'Django', level: 82, iconName: 'Server', category: 'Frameworks', description: 'MVT Architecture, ORM, Auth, Admin Portal, SQLite/PostgreSQL integration' },
-  { name: 'FastAPI', level: 75, iconName: 'Zap', category: 'Frameworks', description: 'High-performance async APIs, Pydantic data validation' },
-  { name: 'REST API', level: 84, iconName: 'Globe', category: 'Frameworks', description: 'API design, JSON response formatting, HTTP verbs, integration' },
+  // Database
+  { name: 'MySQL / Oracle', level: 86, iconName: 'HardDrive', category: 'Database', description: 'Relational database management, enterprise schema design, indexing & optimization' },
+  { name: 'Oracle SQL', level: 82, iconName: 'Database', category: 'Database', description: 'Enterprise relational database querying & schema design' },
+  { name: 'MySQL', level: 86, iconName: 'HardDrive', category: 'Database', description: 'Relational database management, indexing, relational tables' },
 
-  // Analytics
-  { name: 'Power BI', level: 92, iconName: 'BarChart', category: 'Analytics', description: 'Interactive Dashboards, Power Query, DAX measures, ETL pipeline' },
-  { name: 'Excel', level: 88, iconName: 'Sheet', category: 'Analytics', description: 'Pivot tables, VLOOKUP/XLOOKUP, Advanced formulas, Data cleaning' },
-  { name: 'DAX', level: 84, iconName: 'Cpu', category: 'Analytics', description: 'Data Analysis Expressions, calculated columns, measures, time intelligence' },
-  { name: 'ETL', level: 85, iconName: 'Workflow', category: 'Analytics', description: 'Extract, Transform, Load workflows in Power Query & Python' },
-  { name: 'EDA', level: 90, iconName: 'Search', category: 'Analytics', description: 'Exploratory Data Analysis, outlier detection, hypothesis testing' },
-
-  // Databases
-  { name: 'Oracle SQL', level: 82, iconName: 'Database', category: 'Databases', description: 'Enterprise relational database querying & schema design' },
-  { name: 'MySQL', level: 86, iconName: 'HardDrive', category: 'Databases', description: 'Relational database management, indexing, relational tables' },
+  // Web Development
+  { name: 'Django', level: 82, iconName: 'Server', category: 'Web Development', description: 'MVT Architecture, ORM, Auth, Admin Portal, SQLite/PostgreSQL integration' },
+  { name: 'HTML', level: 92, iconName: 'Layout', category: 'Web Development', description: 'Semantic HTML5 markup, accessibility, SEO structure' },
+  { name: 'CSS', level: 88, iconName: 'Palette', category: 'Web Development', description: 'Flexbox, Grid, Glassmorphism, 3D CSS Transforms, Animations' },
+  { name: 'FastAPI', level: 75, iconName: 'Zap', category: 'Web Development', description: 'High-performance async APIs, Pydantic data validation' },
+  { name: 'REST API', level: 84, iconName: 'Globe', category: 'Web Development', description: 'API design, JSON response formatting, HTTP verbs, integration' },
 
   // Tools
+  { name: 'Git / GitHub', level: 88, iconName: 'GitBranch', category: 'Tools', description: 'Version control, branching strategies, repository management & CI/CD workflows' },
   { name: 'Git', level: 85, iconName: 'GitBranch', category: 'Tools', description: 'Version control, branching strategies, commit history management' },
   { name: 'GitHub', level: 88, iconName: 'Github', category: 'Tools', description: 'Repository hosting, collaborative coding, portfolio showcase' },
   { name: 'VS Code', level: 92, iconName: 'Terminal', category: 'Tools', description: 'Primary IDE for Python, Frontend, and SQL scripting' },
@@ -123,6 +124,8 @@ export const PROJECTS: Project[] = [
       'Optimized statistical chart rendering using Seaborn pairplots and boxplots'
     ],
     githubUrl: 'https://github.com/NivashMukil/Employee-Attrition-Analysis-',
+    isFeatured: true,
+    repoName: 'Employee-Attrition-Analysis-',
     image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Overtime & Distance correlation discovered', '1,400+ Records Analyzed', 'Interactive Visual Reports'],
     codeSnippet: {
@@ -173,6 +176,8 @@ plt.show()`
       'Extracted titles (Mr, Mrs, Miss, Master) from Name column to accurately impute missing ages'
     ],
     githubUrl: 'https://github.com/NivashMukil/Titanic-Survival-Analysis-EDA',
+    isFeatured: true,
+    repoName: 'Titanic-Survival-Analysis-EDA',
     image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1200&q=80',
     highlights: ['96% 1st Class Female Survival Insight', 'Name Title Feature Extraction', 'Complete Clean Pipeline'],
     codeSnippet: {
@@ -214,6 +219,8 @@ df['Age'] = df.groupby('Title')['Age'].transform(lambda x: x.fillna(x.median()))
       'Designed responsive dashboard layout using glassmorphism dark theme principles'
     ],
     githubUrl: 'https://github.com/NivashMukil/PowerBI-Sales-Dashboard',
+    isFeatured: true,
+    repoName: 'PowerBI-Sales-Dashboard',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Interactive Power BI Drilldown', 'DAX YoY Calculations', 'Star Schema Model'],
     codeSnippet: {
@@ -255,6 +262,8 @@ RETURN DIVIDE(Change, [Sales PY], 0)`
       'Implemented session-based cart management for guest and logged-in users'
     ],
     githubUrl: 'https://github.com/NivashMukil/Food-apps-django',
+    isFeatured: true,
+    repoName: 'Food-apps-django',
     image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Full Django Authentication', 'MVT Architecture', 'Menu & Order Cart'],
     codeSnippet: {
@@ -302,6 +311,8 @@ def menu_view(request):
       'Built custom JavaScript carousel for featured organic deal banners'
     ],
     githubUrl: 'https://github.com/NivashMukil/Organic-Product-Web',
+    isFeatured: true,
+    repoName: 'Organic-Product-Web',
     liveUrl: 'https://nivashmukil.github.io/Organic-Product-Web',
     image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80',
     highlights: ['Modern Glass UI', 'Live Countdown Timer', '100% Responsive Grid'],
@@ -324,6 +335,14 @@ def menu_view(request):
     }
   }
 ];
+
+export const FEATURED_REPO_NAMES = new Set([
+  'employee-attrition-analysis-',
+  'titanic-survival-analysis-eda',
+  'powerbi-sales-dashboard',
+  'food-apps-django',
+  'organic-product-web',
+]);
 
 export const TIMELINE_ITEMS: TimelineItem[] = [
   {

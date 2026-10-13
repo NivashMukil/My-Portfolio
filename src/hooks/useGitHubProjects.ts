@@ -3,6 +3,7 @@ import type { Project, GitHubRepo } from '../types';
 import { PROJECTS } from '../data/portfolioData';
 import {
   fetchGitHubRepos,
+  getCachedRepos,
   transformGitHubRepoToProject,
 } from '../services/githubService';
 
@@ -43,7 +44,7 @@ export function useGitHubProjects(): UseGitHubProjectsReturn {
   const loadRepos = useCallback(async (force = false) => {
     if (force) {
       setRefreshing(true);
-    } else {
+    } else if (rawRepos.length === 0) {
       setLoading(true);
     }
     setError(null);
@@ -62,9 +63,18 @@ export function useGitHubProjects(): UseGitHubProjectsReturn {
       setLoading(false);
       setRefreshing(false);
     }
-  }, []);
+  }, [rawRepos.length]);
 
   useEffect(() => {
+    // 1. If cached repositories exist, display immediately (stale-while-revalidate)
+    const cached = getCachedRepos();
+    if (cached) {
+      setRawRepos(cached.repos);
+      setLastUpdated(cached.lastUpdated);
+      setIsFromCache(true);
+      setLoading(false);
+    }
+    // 2. Fetch fresh data from GitHub in the background
     loadRepos(false);
   }, [loadRepos]);
 
@@ -77,15 +87,22 @@ export function useGitHubProjects(): UseGitHubProjectsReturn {
 
     // 1. Enrich existing curated featured projects with live GitHub stats
     const matchedRepoKeys = new Set<string>();
+    const enrichedFeatured: Project[] = [];
 
-    const enrichedFeatured = PROJECTS.map(p => {
+    for (const p of PROJECTS) {
       const pKey = normalizeRepo(p.repoName || p.githubUrl);
       const matched = repoMap.get(pKey);
+
+      // If we have live GitHub repos loaded, verify the repository exists on GitHub.
+      // If the repository was deleted or made private on GitHub, automatically remove it!
+      if (rawRepos.length > 0 && !matched) {
+        continue;
+      }
 
       if (matched) {
         matchedRepoKeys.add(pKey);
         matchedRepoKeys.add(normalizeRepo(matched.name));
-        return {
+        enrichedFeatured.push({
           ...p,
           stars: matched.stargazers_count,
           forks: matched.forks_count,
@@ -99,14 +116,14 @@ export function useGitHubProjects(): UseGitHubProjectsReturn {
                 ? matched.homepage
                 : `https://${matched.homepage}`
               : undefined),
-        };
+        });
+      } else {
+        enrichedFeatured.push({
+          ...p,
+          isFeatured: true,
+        });
       }
-
-      return {
-        ...p,
-        isFeatured: true,
-      };
-    });
+    }
 
     // 2. Discover remaining public repositories (not featured)
     const discoveredRepos: Project[] = [];

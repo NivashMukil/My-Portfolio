@@ -128,6 +128,10 @@ export async function fetchGitHubRepos(forceRefresh = false): Promise<FetchRepos
 /**
  * Retrieves cached repositories if available regardless of expiration age
  */
+export function getCachedRepos(): { repos: GitHubRepo[]; lastUpdated: Date } | null {
+  return getFallbackCache();
+}
+
 function getFallbackCache(): { repos: GitHubRepo[]; lastUpdated: Date } | null {
   if (typeof window === 'undefined' || !window.localStorage) return null;
   try {

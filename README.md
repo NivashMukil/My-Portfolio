@@ -1,32 +1,118 @@
-# React + TypeScript + Vite
+# 🌐 Nivash Mukil – Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Welcome to my personal portfolio website! This portfolio showcases my skills, projects, certifications, and experience as a **Data Analyst** with a strong foundation in **Python, SQL, Power BI, and Data Visualization**.
 
-Currently, two official plugins are available:
+## 🚀 Live Portfolio
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🔗 **Website:** https://nivashmukil.vercel.app
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 👨‍💻 About Me
 
-## Expanding the Oxlint configuration
+Hi, I'm **Nivash Mukil**, an aspiring Data Analyst passionate about transforming raw data into meaningful insights. I enjoy solving business problems through data analysis, interactive dashboards, and automation.
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+I have hands-on experience with Python, SQL, Power BI, Excel, and data visualization, along with knowledge of machine learning fundamentals and web technologies.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+---
+
+## 🛠️ Technologies Used
+
+* HTML5
+* CSS3
+* JavaScript
+* React.js
+* TypeScript
+* Tailwind CSS
+* Vite
+* Framer Motion
+* Lucide React
+* Vercel
+
+---
+
+## ✨ Features
+
+* Responsive design for desktop, tablet, and mobile
+* Modern and clean user interface
+* Smooth animations and transitions
+* About Me section
+* Skills showcase
+* Project gallery
+* Certifications
+* Contact section
+* Social media integration
+* Fast deployment with Vercel
+
+---
+
+## 📂 Featured Projects
+
+### Employee Attrition Analysis
+
+* Analyzed HR employee data to identify key factors influencing employee attrition.
+* Cleaned and transformed datasets using Python and SQL.
+* Built an interactive Power BI dashboard for HR insights.
+
+### Sales Dashboard
+
+* Created an interactive Power BI dashboard to visualize sales performance.
+* Included KPIs, trend analysis, regional performance, and business insights.
+
+More projects are available on my GitHub profile.
+
+---
+
+## 📫 Connect With Me
+
+* 🌐 Portfolio: https://nivashmukil.vercel.app
+* 💼 LinkedIn: https://www.linkedin.com/in/nivash-mukil
+* 💻 GitHub: https://github.com/NivashMukil
+
+---
+
+## 🚀 Run Locally
+
+Clone the repository:
+
+```bash
+git clone https://github.com/NivashMukil/portfolio.git
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Navigate to the project folder:
+
+```bash
+cd portfolio
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+---
+
+## 📄 License
+
+This project is open-source and available under the MIT License.
+
+---
+
+## ⭐ Support
+
+If you like this portfolio, consider giving the repository a ⭐ on GitHub. It helps support my work and encourages future improvements.
+
+Thank you for visiting!
